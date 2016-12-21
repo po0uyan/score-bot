@@ -7,7 +7,6 @@ def start(bot, update):
 
     logging.basicConfig(format=formatter,filename='log/loginfo.log',level=logging.INFO)
     logging.info(update.message)
-    print (update.message.message_id)
 updater = Updater(token='318165040:AAEiSKoYbEJYnbH3Lputj0u4z487Ujl0z2c')
 dispatcher = updater.dispatcher
 #logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',level=logging.INFO)
