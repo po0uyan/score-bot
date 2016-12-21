@@ -1,0 +1,6 @@
+laliga = [u'لیگا', u'لال', u'la liga', u'spain', u'span', u'اسپانیا', u'اسپین', u'laliga', u'اسپان']
+premier_leageu = [u'چزیره', u'جزيره', u'glis', u'prem', u'jazi', u'انگل', u'اینگ', u'gazi']
+italy = [u'ital', u'itly', u'ایتالیا', u'سری', u'سرى', u'سري', u'seri']
+bondeliga = [u'bundesliga', u'bondesliga', u'bondes', u'bundes', u'بوندس', u'بندس', u'لمان', u'باندس', u'alman',u'germ']
+iran = [u'برتر', u'خلیج', u'خليج', u'فارس', u'persian', u'gulf', u'ایران', u'iran', u'ايران']
+france = [u'فرانس', u'فرنس', u'لوشامپيو', u'لوشامپ', u'league 1', u'france', u'faran', u'fera', u'losha', u'lusham']
