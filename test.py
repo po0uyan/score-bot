@@ -42,13 +42,13 @@ def echo(bot, update):
 
     elif update.message.text== 'لیگ آلمان' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ برتر' :
+    elif update.message.text== 'لیگ برترایران' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
     elif update.message.text== 'لیگ اسپانیا' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
     elif update.message.text== 'لیگ فرانسه' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ جزیره' :
+    elif update.message.text == 'لیگ جزیره' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
     elif update.message.text== 'سری آ' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
