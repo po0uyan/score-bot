@@ -16,11 +16,8 @@ getrow_reply_keyboard = [["لیگ جزیره","لیگ اسپانیا"],
                          ["بازگشت"]]
 getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
 
-tempscore=None
+
 def start(bot, update):
-
-
-
 
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم",reply_markup=start_markup)
     info_logger.info(update.message)
@@ -34,9 +31,11 @@ def echo(bot, update):
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
         info_logger.info(update.message)
+   
     elif update.message.text== 'نتایج زنده' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_score.get_score(),reply_markup=start_markup)
         info_logger.info(update.message)
+
     elif update.message.text== 'بازگشت' :
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
         info_logger.info(update.message)
@@ -112,7 +111,7 @@ def error_callback(bot, update, error):
         error_logger.error(inf)
         # handle all other telegram related errors
 
-updater = Updater(token='318165040:AAEiSKoYbEJYnbH3Lputj0u4z487Ujl0z2c')
+updater = Updater(token='95539936:AAH-GnoFYItZ5mQHXkIqUxFYwG6EnUzC0k0')
 dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start)
 chart_handler = CommandHandler('jadval', chart)
