@@ -30,10 +30,16 @@ def echo(bot, update):
     if update.message.text== 'جداول رده بندی' :
 
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
+        info_logger.info(update.message)
+
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
+        info_logger.info(update.message)
+   
     elif update.message.text== 'نتایج زنده' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_score.get_score(),reply_markup=start_markup)
+        info_logger.info(update.message)
+        
     elif update.message.text== 'بازگشت' :
         try :
             bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
