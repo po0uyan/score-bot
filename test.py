@@ -53,13 +53,13 @@ def echo(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
 
 def help(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text=help_message)
+    bot.sendMessage(chat_id=update.message.chat_id, text=help_message , reply_markup=start_markup)
     info_logger.info(update.message)
 
 
 def chart(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_chart.get_chart(update.message.text))
+        bot.sendMessage(chat_id=update.message.chat_id, text=get_chart.get_chart(update.message.text) , reply_markup=getrow_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
@@ -67,7 +67,7 @@ def chart(bot, update):
 
 def news(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_news.get_news())
+        bot.sendMessage(chat_id=update.message.chat_id, text=get_news.get_news(),reply_markup=start_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
@@ -75,7 +75,7 @@ def news(bot, update):
 
 def score(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_score.get_score())
+        bot.sendMessage(chat_id=update.message.chat_id, text=get_score.get_score(),reply_markup=start_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
@@ -110,7 +110,7 @@ def error_callback(bot, update, error):
         error_logger.error(inf)
         # handle all other telegram related errors
 
-updater = Updater(token='318165040:AAEiSKoYbEJYnbH3Lputj0u4z487Ujl0z2c')
+updater = Updater(token='95539936:AAH-GnoFYItZ5mQHXkIqUxFYwG6EnUzC0k0')
 dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start)
 chart_handler = CommandHandler('jadval', chart)
