@@ -40,17 +40,17 @@ def echo(bot, update):
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
         info_logger.info(update.message)
 
-    elif update.message.text== 'لیگ آلمان (bundesliga)' :
+    elif update.message.text== 'لیگ آلمان' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ برتر (خلیج فارس)' :
+    elif update.message.text== 'لیگ برتر' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ اسپانیا (la liga)' :
+    elif update.message.text== 'لیگ اسپانیا' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ فرانسه (loshampione)' :
+    elif update.message.text== 'لیگ فرانسه' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'لیگ جزیره ( premier league)' :
+    elif update.message.text== 'لیگ جزیره' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-    elif update.message.text== 'سری آ (italy)' :
+    elif update.message.text== 'سری آ' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
 
 def help(bot, update):
