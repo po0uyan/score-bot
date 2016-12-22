@@ -3,8 +3,8 @@ from pip._vendor.html5lib.treebuilders import etree
 from xml.etree import ElementTree as etree
 
 hdr = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
+    'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8'}
 site = 'http://www.tarafdari.ir/category/all/all/feed.xml'
 
 
@@ -21,4 +21,4 @@ def get_news():
                 u'بدمینتون', u'NBA', u'نقل و انتقالات']
         if not any(word in desc for word in list):
             result += desc + "\n\n"
-    return  result
+    return result + "\n."
