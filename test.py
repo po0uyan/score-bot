@@ -10,35 +10,37 @@ start_reply_keyboard = [["نتایج زنده", "جداول رده بندی "],
                         ["آخرین خبر های ورزشی"]]
 start_markup = ReplyKeyboardMarkup(start_reply_keyboard, resize_keyboard=True)
 
-getrow_reply_keyboard = [["لیگ جزیره ( premier league)","لیگ اسپانیا (la liga)", "لیگ آلمان (bundesliga)" ],
-                        [" سری آ (italy) ","لیگ فرانسه (loshampione)","لیگ برتر (خلیج فارس)"],
+getrow_reply_keyboard = [["لیگ جزیره","لیگ اسپانیا"],
+                         [ "لیگ آلمان " , " سری آ  "],
+                        ["لیگ فرانسه","لیگ برترایران"],
                          ["بازگشت"]]
 getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
 
-
+tempscore=None
 def start(bot, update):
 
 
 
 
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم",reply_markup=start_markup)
-    # bot.sendMessage(chat_id=update.message.chat_id, text=start_message)
     info_logger.info(update.message)
 
 
 def echo(bot, update):
     if update.message.text== 'جداول رده بندی' :
-
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
+        info_logger.info(update.message)
+
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
+        info_logger.info(update.message)
     elif update.message.text== 'نتایج زنده' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_score.get_score(),reply_markup=start_markup)
+        info_logger.info(update.message)
     elif update.message.text== 'بازگشت' :
-        try :
-            bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
-        except Exception as e:
-            print (e)
+        bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
+        info_logger.info(update.message)
+
     elif update.message.text== 'لیگ آلمان (bundesliga)' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
     elif update.message.text== 'لیگ برتر (خلیج فارس)' :
@@ -110,7 +112,7 @@ def error_callback(bot, update, error):
         error_logger.error(inf)
         # handle all other telegram related errors
 
-updater = Updater(token='95539936:AAH-GnoFYItZ5mQHXkIqUxFYwG6EnUzC0k0')
+updater = Updater(token='318165040:AAEiSKoYbEJYnbH3Lputj0u4z487Ujl0z2c')
 dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start)
 chart_handler = CommandHandler('jadval', chart)
