@@ -1,5 +1,7 @@
 import telegram
-from telegram import ReplyKeyboardMarkup
+from scipy.signal.signaltools import resample
+from telegram import ParseMode
+from telegram import ReplyKeyboardMarkup , InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
@@ -19,10 +21,10 @@ getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
 
 def start(bot, update):
 
-    update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم",reply_markup=start_markup)
+    update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
     try :
         info_logger.info(update.message)
-    except Exception as e :
+    except Exception as e:
         error_logger.error(e)
 
 def echo(bot, update):
@@ -31,7 +33,7 @@ def echo(bot, update):
         info_logger.info(str(update.message).replace(update.message.text,'rade bandi'))
 
     elif update.message.text=='آخرین خبر های ورزشی':
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
         info_logger.info(str(update.message).replace(update.message.text,'news'))
    
     elif update.message.text== 'نتایج زنده' :

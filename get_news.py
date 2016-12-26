@@ -17,8 +17,9 @@ def get_news():
     result = ""
     for entry in item:
         desc = entry.findtext('title')
+
         list = [u'عکس', u'کلیپ', u'ویدیو', u'تصویر', u'طرفداری', u'بدون شرح', u'خلاصه بازی', u'بسکتبال', u'مچ',
                 u'بدمینتون', u'NBA', u'نقل و انتقالات']
         if not any(word in desc for word in list):
-            result += desc + "\n\n"
-    return result + "\n."
+            result += desc+'\n<a href="{0}">{1}</a> \n'.format(entry.findtext('link'),'ادامه خبر...\n\n')
+    return result
