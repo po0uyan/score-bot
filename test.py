@@ -32,35 +32,34 @@ def echo(bot, update):
 
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
-        info_logger.info(update.message.replace(update.message.text,'news'))
+        info_logger.info(str(update.message).replace(update.message.text,'news'))
    
     elif update.message.text== 'نتایج زنده' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_score.get_score(),reply_markup=start_markup)
         
-        info_logger.info(update.message.replace(update.message.text ,'live score'))
+        info_logger.info(str(update.message).replace(update.message.text ,'live score'))
 
     elif update.message.text== 'بازگشت' :
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
-        info_logger.info(update.message.replace(update.message.text,'back used'))
-
+        info_logger.info(str(update.message).replace(update.message.text,'back used'))
     elif update.message.text== 'لیگ آلمان' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'bundesliga'))
+        info_logger.info(str(update.message).replace(update.message.text,'bundesliga'))
     elif update.message.text== 'لیگ برترایران' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'iran leage'))
+        info_logger.info(str(update.message).replace(update.message.text,'iran leage'))
     elif update.message.text== 'لیگ اسپانیا' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'laliga'))
+        info_logger.info(str(update.message).replace(update.message.text,'laliga'))
     elif update.message.text== 'لیگ فرانسه' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'france_leage'))
+        info_logger.info(str(update.message).replace(update.message.text,'france_leage'))
     elif update.message.text == 'لیگ جزیره' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(update.messag.replace(update.message.text,'premier leage'))
     elif update.message.text== 'سری آ' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'itly'))
+        info_logger.info(str(update.message).replace(update.message.text,'itly'))
 def help(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=help_message , reply_markup=start_markup)
     info_logger.info(update.message)
