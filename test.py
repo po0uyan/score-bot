@@ -28,7 +28,7 @@ def start(bot, update):
 def echo(bot, update):
     if update.message.text== 'جداول رده بندی' :
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
-        info_logger.info('hiii')
+        info_logger.info(str(update.message).replace(update.message.text,'rade bandi'))
 
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),reply_markup=start_markup)
