@@ -4,10 +4,7 @@ from leage_name import *
 from findall import find_all
 
 
-
-
 def get_chart(text):
-    start = 0
     res_name = ""
     result = ""
 
@@ -24,8 +21,7 @@ def get_chart(text):
     elif any(word in text for word in france):
         postfix = u'جدول-لیگ-فرانسه-لوشامپیونه'
     else:
-        return "  نام لیگ مورد نظر شناسایی نشد :-( \n لطفا نام لیگ مورد نظر را در کنار jadval/ وارد نمایید\n به عنوان مثال:  \n\n /jadval لیگ جزیره \n یا  \n /jadval premier league\n یا \n/jadval englis \n  یا\n/jadval هر چیزی مربوط به لیگ مورد نظر \n\n با تشکر\n ."
-
+        return "در این قسمت میتوانید از کیبورد استفاده کنید و لیگ مورد نظر را انتخاب نمایید و یا اینکه نام لیگ را به صورت زیر وارد نمایید نام لیگ هر شکلی نوشته شود اسکور بات منظور شما را می فهمد ، به عنوان مثال : \n\n /jadval انگلیس \n\n یا \n\n /jadval premier  \n\n  یا \n\n /jadval jazire  \n\n  و یا هر ترکیب دیگر از لیگ های دیگر \n ."
     site = 'http://www.tarafdari.ir/' + postfix
     hdr = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',

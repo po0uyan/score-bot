@@ -1,39 +1,20 @@
 from telegram import ParseMode
-from telegram import ReplyKeyboardMarkup , InlineKeyboardButton, InlineKeyboardMarkup
+import logging
+from keyboards_layout import getrow_markup,getmag_markup,start_markup
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
 import get_chart ,get_news,get_score
 from magdictionary import mags
 import jdatetime
-start_message="\nسلام \n \n /score \n آخرين نتايج زنده مربوط به فوتبال \n\n  /news \n ارسال اخرين اخبار ورزشي \n\n /jadval  + عنوان لیگ مورد نظر \n دریافت جدول نتایج لیگ ها  \n\n  /ax  + عنوان مورد نظر   \n  ارسال تصوير مورد نظر \n\n/rozname \n روزنامه ورزشی \n\n /help\n كمك گرفتن از اسكور بات \n\n /rate \n امتیاز دهی به ربات \n."
-help_message=" \n /score \n آخرين نتايج زنده مربوط به فوتبال \n\n  /news \n ارسال اخرين اخبار ورزشي \n\n/jadval  + عنوان لیگ مورد نظر \n دریافت جدول نتایج لیگ ها  \n\n  /ax + عنوان مورد نظر   \n  ارسال تصوير مورد نظر \n\n/rozname \n روزنامه ورزشی \n\n /help\n كمك گرفتن از اسكور بات \n\n اگه پسند کردین به من امتیاز بدین لطفا :-) \n https://telegram.me/storebot?start=pouyanbot \n."
-start_reply_keyboard = [["نتایج زنده", "جداول رده بندی "],
-                        ["آخرین خبر های ورزشی","روزنامه"]]
-start_markup = ReplyKeyboardMarkup(start_reply_keyboard, resize_keyboard=True)
-
-getrow_reply_keyboard = [["لیگ جزیره","لیگ اسپانیا"],
-                         [ "لیگ آلمان " , " سری آ  "],
-                        ["لیگ فرانسه","لیگ برترایران"],
-                         ["بازگشت"]]
-getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
-
-getmag_reply_keyboard = [["خبر ورزشی","ایران ورزشی"],
-                         [ "گل" , "نود"],
-                        ["استقلال","پیروزی"],
-                        ["شوت","هدف"],
-                        ["ابرار ورزشی"],
-                         ["بازگشت"]]
-getmag_markup = ReplyKeyboardMarkup(getmag_reply_keyboard, resize_keyboard=True)
+logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+                    level=logging.ERROR,filename='log/error.log')
 
 
 def start(bot, update):
-
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
-    try :
-        info_logger.info(update.message)
-    except Exception as e:
-        error_logger.error(e)
+    info_logger.info(update.message)
+
 
 def echo(bot, update):
     if update.message.text== 'جداول رده بندی' :
@@ -84,11 +65,7 @@ def echo(bot, update):
 
 
     elif update.message.text == 'نود':
-        print(mags['نود'].format(get_valid_date()))
-        try:
-            bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
-        except Exception as e :
-            print (e)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
     elif update.message.text == 'ابرار ورزشی':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ابرار ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
     elif update.message.text == 'استقلال':
@@ -99,13 +76,6 @@ def echo(bot, update):
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['هدف'].format(get_valid_date()),reply_markup=getmag_markup)
     elif update.message.text == 'پیروزی':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['پیروزی'].format(get_valid_date()),reply_markup=getmag_markup)
-
-
-
-
-def help(bot, update):
-    bot.sendMessage(chat_id=update.message.chat_id, text=help_message , reply_markup=start_markup)
-    info_logger.info(update.message)
 
 
 def chart(bot, update):
@@ -133,7 +103,7 @@ def score(bot, update):
 
 
 def get_valid_date():
-    e=jdatetime.datetime.now()
+    e = jdatetime.datetime.now()
     if e.weekday()!=7:
         return str(e.date())
 
@@ -175,7 +145,6 @@ start_handler = CommandHandler('start', start)
 chart_handler = CommandHandler('jadval', chart)
 news_handler = CommandHandler('news', news)
 score_handler = CommandHandler('score', score)
-help_handler = CommandHandler('help', help)
 echo_handler= MessageHandler(Filters.text , echo)
 
 dispatcher.add_handler(start_handler)
@@ -183,7 +152,6 @@ dispatcher.add_handler(start_handler)
 dispatcher.add_handler(chart_handler)
 dispatcher.add_handler(news_handler)
 dispatcher.add_handler(score_handler)
-dispatcher.add_handler(help_handler)
 
 dispatcher.add_handler(echo_handler)
 dispatcher.add_error_handler(error_callback)
