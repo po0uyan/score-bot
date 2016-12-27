@@ -4,10 +4,12 @@ from telegram.ext import Updater,CommandHandler , MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
 import get_chart ,get_news,get_score
+from magdictionary import mags
+import jdatetime
 start_message="\nسلام \n \n /score \n آخرين نتايج زنده مربوط به فوتبال \n\n  /news \n ارسال اخرين اخبار ورزشي \n\n /jadval  + عنوان لیگ مورد نظر \n دریافت جدول نتایج لیگ ها  \n\n  /ax  + عنوان مورد نظر   \n  ارسال تصوير مورد نظر \n\n/rozname \n روزنامه ورزشی \n\n /help\n كمك گرفتن از اسكور بات \n\n /rate \n امتیاز دهی به ربات \n."
 help_message=" \n /score \n آخرين نتايج زنده مربوط به فوتبال \n\n  /news \n ارسال اخرين اخبار ورزشي \n\n/jadval  + عنوان لیگ مورد نظر \n دریافت جدول نتایج لیگ ها  \n\n  /ax + عنوان مورد نظر   \n  ارسال تصوير مورد نظر \n\n/rozname \n روزنامه ورزشی \n\n /help\n كمك گرفتن از اسكور بات \n\n اگه پسند کردین به من امتیاز بدین لطفا :-) \n https://telegram.me/storebot?start=pouyanbot \n."
 start_reply_keyboard = [["نتایج زنده", "جداول رده بندی "],
-                        ["آخرین خبر های ورزشی"]]
+                        ["آخرین خبر های ورزشی","روزنامه"]]
 start_markup = ReplyKeyboardMarkup(start_reply_keyboard, resize_keyboard=True)
 
 getrow_reply_keyboard = [["لیگ جزیره","لیگ اسپانیا"],
@@ -15,6 +17,14 @@ getrow_reply_keyboard = [["لیگ جزیره","لیگ اسپانیا"],
                         ["لیگ فرانسه","لیگ برترایران"],
                          ["بازگشت"]]
 getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
+
+getmag_reply_keyboard = [["خبر ورزشی","ایران ورزشی"],
+                         [ "گل" , "نود"],
+                        ["استقلال","پیروزی"],
+                        ["شوت","هدف"],
+                        ["ابرار ورزشی"],
+                         ["بازگشت"]]
+getmag_markup = ReplyKeyboardMarkup(getmag_reply_keyboard, resize_keyboard=True)
 
 
 def start(bot, update):
@@ -60,6 +70,32 @@ def echo(bot, update):
     elif update.message.text== 'سری آ' :
         bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'itly'))
+    elif update.message.text=='روزنامه':
+        bot.sendMessage(chat_id=update.message.chat_id,text="لطفا روزنامه مورد نظر را انتخاب نمایید.",reply_markup=getmag_markup)
+
+
+    elif update.message.text=='خبر ورزشی':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['خبر ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text=='ایران ورزشی':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ایران ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+
+    elif update.message.text=='گل':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['گل'].format(get_valid_date()),reply_markup=getmag_markup)
+
+    elif update.message.text=='نود':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text=='ابرار ورزشی':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ابرار ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text=='استقلال':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['استقلال'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text=='شوت':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['شوت'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text=='هدف':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['هدف'].format(get_valid_date()),reply_markup=getmag_markup)
+
+
+
+
 def help(bot, update):
     bot.sendMessage(chat_id=update.message.chat_id, text=help_message , reply_markup=start_markup)
     info_logger.info(update.message)
@@ -87,6 +123,14 @@ def score(bot, update):
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
+
+
+def get_valid_date():
+    e=jdatetime.datetime.now()
+    if e.weekday()!=7:
+        return str(e.date())
+
+    return str(e.replace(year=e.year,month=e.month,day=e.day-1))
 
 
 def error_callback(bot, update, error):
