@@ -82,16 +82,23 @@ def echo(bot, update):
     elif update.message.text=='گل':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['گل'].format(get_valid_date()),reply_markup=getmag_markup)
 
-    elif update.message.text=='نود':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
-    elif update.message.text=='ابرار ورزشی':
+
+    elif update.message.text == 'نود':
+        print(mags['نود'].format(get_valid_date()))
+        try:
+            bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
+        except Exception as e :
+            print (e)
+    elif update.message.text == 'ابرار ورزشی':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ابرار ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
-    elif update.message.text=='استقلال':
+    elif update.message.text == 'استقلال':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['استقلال'].format(get_valid_date()),reply_markup=getmag_markup)
-    elif update.message.text=='شوت':
+    elif update.message.text == 'شوت':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['شوت'].format(get_valid_date()),reply_markup=getmag_markup)
-    elif update.message.text=='هدف':
+    elif update.message.text == 'هدف':
         bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['هدف'].format(get_valid_date()),reply_markup=getmag_markup)
+    elif update.message.text == 'پیروزی':
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['پیروزی'].format(get_valid_date()),reply_markup=getmag_markup)
 
 
 
