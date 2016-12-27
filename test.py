@@ -94,7 +94,7 @@ def chart(bot, update):
 
 def news(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_news.get_news(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
