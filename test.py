@@ -34,25 +34,26 @@ def echo(bot, update):
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
         info_logger.info(str(update.message).replace(update.message.text,'back used'))
     elif update.message.text== 'لیگ آلمان' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'bundesliga'))
     elif update.message.text== 'لیگ برترایران' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'iran leage'))
     elif update.message.text== 'لیگ اسپانیا' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'laliga'))
     elif update.message.text== 'لیگ فرانسه' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'france_leage'))
     elif update.message.text == 'لیگ جزیره' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(update.messag.replace(update.message.text,'premier leage'))
     elif update.message.text== 'سری آ' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'itly'))
     elif update.message.text=='روزنامه':
         bot.sendMessage(chat_id=update.message.chat_id,text="لطفا روزنامه مورد نظر را انتخاب نمایید.",reply_markup=getmag_markup)
+        info_logger.info(str(update.message).replace(update.message.text,'magazine'))
 
 
     elif update.message.text=='خبر ورزشی':
