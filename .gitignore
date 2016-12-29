@@ -2,3 +2,5 @@ log*
 handy*
 scrap*
 tarafdari_chart*
+__pycache__*
+.idea*

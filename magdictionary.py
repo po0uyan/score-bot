@@ -4,8 +4,8 @@ mags={'خبر ورزشی':'http://static2.varzesh3.com/files/newspaper/varzesh3/
    'نود':'http://static1.varzesh3.com/files/newspaper/varzesh3/820_Navad-{0}.jpg' ,
    'پیروزی': 'http://static2.varzesh3.com/files/newspaper/varzesh3/820_Piroozi-{0}.jpg'  ,
    'ابرار ورزشی' :'http://static2.varzesh3.com/files/newspaper/varzesh3/820_AbrarVarzeshi-{0}.jpg',
-   'استقلال':'http://static2.varzesh3.com/files/newspaper/varzesh3/820_Esteghlal-{0}.jpg' ,
-   'شوت':'http://static2.varzesh3.com/files/newspaper/varzesh3/820_shoot-{0}.jpg' ,
+   'استقلال':'http://static1.varzesh3.com/files/newspaper/varzesh3/820_Esteghlal-{0}.jpg' ,
+   'شوت':'http://static1.varzesh3.com/files/newspaper/varzesh3/820_shoot-{0}.jpg' ,
    'هدف':'http://static2.varzesh3.com/files/newspaper/varzesh3/820_Hadaf-{0}.jpg'
     }
 
