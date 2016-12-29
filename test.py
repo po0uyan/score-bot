@@ -152,7 +152,7 @@ def error_callback(bot, update, error):
         inf = e.message
         error_logger.error(inf)
         # handle all other telegram related errors
-
+#eztok: 318165040:AAEiSKoYbEJYnbH3Lputj0u4z487Ujl0z2c
 updater = Updater(token='95539936:AAH-GnoFYItZ5mQHXkIqUxFYwG6EnUzC0k0')
 dispatcher = updater.dispatcher
 start_handler = CommandHandler('start', start)
