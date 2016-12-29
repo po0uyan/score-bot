@@ -81,9 +81,9 @@ def get_score():
                 continue
             res_score[j] = lparser[begin:end]
 
-        result += res_stage[i] + "\n\n"
+        result +="<b>{0}</b>\n\n".format(res_stage[i])
         for i in range(0, len(res_lteamname) - 1):
-            result += res_rteamname[i] + ": " + res_score[2 * i] + "  -  " + res_score[2 * i + 1] + " :" + \
+            result += res_rteamname[i] +" "+ res_score[2 * i] + "⚽️ " + res_score[2 * i + 1]+" "  + \
                       res_lteamname[i] + "\n\n"
     result += " \n."
-    return result
+    return result.replace("?","❔")

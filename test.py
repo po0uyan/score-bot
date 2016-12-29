@@ -26,13 +26,12 @@ def echo(bot, update):
         info_logger.info(str(update.message).replace(update.message.text,'news'))
    
     elif update.message.text== 'نتایج زنده' :
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_score.get_score(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score.get_score(),reply_markup=start_markup)
         
         info_logger.info(str(update.message).replace(update.message.text ,'live score'))
 
     elif update.message.text== 'بازگشت' :
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
-        info_logger.info(str(update.message).replace(update.message.text,'back used'))
     elif update.message.text== 'لیگ آلمان' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'bundesliga'))
@@ -103,7 +102,7 @@ def news(bot, update):
 
 def score(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_score.get_score(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_score.get_score(),reply_markup=start_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
