@@ -8,7 +8,7 @@ app = Flask(__name__)
 def hello_world():
     result='''<link rel="stylesheet" type="text/css" href="static/style.css">'''
     result += "<table class='responstable'><tr><th >time</th> <th  >firstname</th><th  >lastname</th><th  >username</th><th  >command</th><th  >chat_id</th><th  >chat type</th></tr>"
-    with open('log/loginfo.log', encoding='utf-8') as file:
+    with open('log/loginfo.log',encoding='utf-8') as file:
         contents = file.readlines()
     for item in contents[len(contents)-30:len(contents)]:
         result += "<tr><td  >"+item[0:28]
