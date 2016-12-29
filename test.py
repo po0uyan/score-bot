@@ -118,10 +118,9 @@ def rate(bot, update):
 
 def get_valid_date():
     e = jdatetime.datetime.now()
-    if e.weekday()!=7:
+    if e.weekday()!=6:
         return str(e.date())
-
-    return str(e.replace(year=e.year,month=e.month,day=e.day-1))
+    return str(e.replace(year=e.year,month=e.month,day=e.day-1).date())
 
 
 def error_callback(bot, update, error):
