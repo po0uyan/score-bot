@@ -19,3 +19,5 @@ start_markup = ReplyKeyboardMarkup(start_reply_keyboard, resize_keyboard=True)
 getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
 rate_keyboard=[[InlineKeyboardButton(text="برای امتیاز دهی اینجا کلیک کن ☺️ ☺️",url='https://telegram.me/storebot?start=pouyanbot')]]
 rate_inline_keyboard_markup=InlineKeyboardMarkup(rate_keyboard)
+admin_contact_keyboard=[[InlineKeyboardButton(text="برای ارتباط با ادمین اینجا کلیک کنید️",url='https://telegram.me/scorebotA')]]
+admin_inline_keyboard_markup=InlineKeyboardMarkup(admin_contact_keyboard)

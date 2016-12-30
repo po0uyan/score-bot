@@ -1,6 +1,6 @@
 from telegram import ParseMode
 import logging
-from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup
+from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
@@ -81,7 +81,7 @@ def echo(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id, text="اگه پسند کردین بهم امتیاز بدین لطفا 👇🏻   ☺️ ",reply_markup=rate_inline_keyboard_markup)
         info_logger.info(str(update.message).replace(update.message.text,'rate'))
     elif update.message.text == 'ارتباط با ادمین':
-        bot.sendMessage(chat_id=update.message.chat_id, text="متاسفانه در حال حاضر ممکن نیست 😔😔\n ولی به زودی ممکن میشه 😊😊\n .",reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id, text="روی دکمه زیر کلیک کنید",reply_markup=admin_inline_keyboard_markup)
         info_logger.info(str(update.message).replace(update.message.text,'admin contact'))
 
 def chart(bot, update):
