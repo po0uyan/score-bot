@@ -20,7 +20,7 @@ def get_news():
     result = ""
     a=requests.get(site,headers=hdr)
     b=BeautifulSoup(a.text,'html.parser')
-    for i,link in enumerate(b.findAll('a',{'class':'news hot'}, href=True )):
+    for i,link in enumerate(b.findAll('a',{'class':'news'}, href=True )):
         if i<35:
             result += link.text+ '\n<a href="{0}{1}">{2}</a>\n \n'.format(site,link['href'], 'ادامه خبر...')
     return result
