@@ -7,6 +7,7 @@ from bot_logger import error_logger , info_logger
 import get_chart ,get_news,get_score
 from magdictionary import mags
 import jdatetime
+from varzesh3_scrapp import get_score
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR,filename='log/error.log')
 
@@ -26,7 +27,7 @@ def echo(bot, update):
         info_logger.info(str(update.message).replace(update.message.text,'news'))
    
     elif update.message.text== 'نتایج زنده' :
-        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score.get_score(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(),reply_markup=start_markup)
         
         info_logger.info(str(update.message).replace(update.message.text ,'live score'))
 
@@ -102,7 +103,7 @@ def news(bot, update):
 
 def score(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_score.get_score(),reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_score(),reply_markup=start_markup)
         info_logger.info(update.message)
     except Exception as e :
         error_logger.error(e)
