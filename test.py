@@ -1,23 +1,24 @@
 from telegram import ParseMode
 import logging
-from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup
-from telegram.ext import Updater,CommandHandler , MessageHandler, Filters
+from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup, \
+    get_video_keyboard
+from telegram.ext import Updater,CommandHandler , MessageHandler, Filters , CallbackQueryHandler
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
 import get_chart ,get_news,get_score
 from magdictionary import mags
 import jdatetime
-from varzesh3_scrapp import get_score
+from varzesh3_scrapp import get_score , get_video
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR,filename='log/error.log')
-
+from get_video_from_page import get_url
 
 def start(bot, update):
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
     info_logger.info(update.message)
 
 
-def echo(bot, update):
+def echo(bot, update,user_data):
     if update.message.text== 'جداول رده بندی' :
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
         info_logger.info(str(update.message).replace(update.message.text,'rade bandi'))
@@ -30,6 +31,12 @@ def echo(bot, update):
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(),reply_markup=start_markup)
         
         info_logger.info(str(update.message).replace(update.message.text ,'live score'))
+
+    elif update.message.text == 'خلاصه بازی ها':
+        user_data['videos'] = get_video()
+        video_markup=get_video_keyboard(user_data['videos'])
+        update.message.reply_text('لطفا بازی مورد نظر را انتخاب نمایید:\n .', reply_markup=video_markup)
+        info_logger.info(str(update.message).replace(update.message.text, 'summary'))
 
     elif update.message.text== 'بازگشت' :
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
@@ -101,6 +108,12 @@ def news(bot, update):
         error_logger.error(e)
 
 
+def button(bot, update,user_data):
+    query = update.callback_query
+    response=get_url(user_data['videos'][int(query.data)]['href'])
+    bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'>  لینک دانلود   \n {1} \n .</a>".format(response,user_data['videos'][int(query.data)]['title']))
+
+
 def score(bot, update):
     try:
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_score(),reply_markup=start_markup)
@@ -162,9 +175,10 @@ news_handler = CommandHandler('news', news)
 score_handler = CommandHandler('score', score)
 rate_handler = CommandHandler('rate', rate)
 
-echo_handler= MessageHandler(Filters.text , echo)
+echo_handler= MessageHandler(Filters.text , echo,pass_user_data=True)
 
 dispatcher.add_handler(start_handler)
+dispatcher.add_handler(CallbackQueryHandler(button,pass_user_data=True))
 
 dispatcher.add_handler(chart_handler)
 dispatcher.add_handler(news_handler)
