@@ -32,7 +32,7 @@ def echo(bot, update,user_data):
         
         info_logger.info(str(update.message).replace(update.message.text ,'live score'))
 
-    elif update.message.text == 'خلاصه بازی ها':
+    elif update.message.text == 'دریافت آخرین خلاصه بازی ها':
         user_data['videos'] = get_video()
         video_markup=get_video_keyboard(user_data['videos'])
         update.message.reply_text('لطفا بازی مورد نظر را انتخاب نمایید:\n .', reply_markup=video_markup)
