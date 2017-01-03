@@ -27,7 +27,7 @@ def get_score():
     b = BeautifulSoup(score, 'html.parser')
 
     for link in b.findAll('div', {'class': 'stage-wrapper sport0'}):
-        result+="<b>{0}</b>\n\n".format(link.find('div', {'class': 'stage-name'}).text)
+        result+="<b>✅✅{0}✅✅</b>\n\n".format(link.find('div', {'class': 'stage-name'}).text)
         score=(link.findAll('div', {'class': 'scores-container'}))
         rname=(link.findAll('div', {'class': 'teamname right'}))
         lname=(link.findAll('div', {'class': 'teamname left'}))
@@ -35,7 +35,11 @@ def get_score():
         sdate=(link.findAll('div', {'class': 'start-date'}))
         status=(link.findAll('div', {'class': 'match-status'}))
         for sc, r, l, st, stat,date in zip(score, rname, lname, stime, status,sdate):
-            result += "{0} {1} ⚽️ {2} {3}  \n⌛️ {4} '\nزمان برگزاری: {5}\n\n".format(r.text.strip(), sc.text.split()[0], sc.text.split()[2], l.text,stat.text.strip(), st.text.strip(),date.text)
+            if stat.text.strip() not in ['پایان نیمه اول' , 'نتیجه نهایی']:
+                stat="دقیقه: "+stat.text.strip()
+            else:
+                stat=stat.text
+            result += "{0} {1} ⚽️ {2} {3} \n{4} \nزمان برگزاری: {5}\n\n".format(r.text.strip(), sc.text.split()[0], sc.text.split()[2], l.text,stat.strip(), st.text.strip(),date.text)
         result+="\n"
     return result+".".replace("?","❔")
 

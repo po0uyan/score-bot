@@ -111,7 +111,7 @@ def news(bot, update):
 def button(bot, update,user_data):
     query = update.callback_query
     response=get_url(user_data['videos'][int(query.data)]['href'])
-    bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'>  لینک دانلود   \n {1} \n .</a>".format(response,user_data['videos'][int(query.data)]['title']))
+    bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'> {1} </a>".format(response,user_data['videos'][int(query.data)]['title']))
 
 
 def score(bot, update):
