@@ -28,6 +28,6 @@ def registers():
     client = MongoClient()
     db = client.get_database('score_bot')
     collec = db.get_collection('sc_dataset')
-    return len(collec.distinct("from.id"))
+    return str(len(collec.distinct("from.id")))
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
