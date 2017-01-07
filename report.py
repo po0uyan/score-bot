@@ -9,10 +9,10 @@ def hello_world():
     client = MongoClient()
     db = client.get_database('score_bot')
     collec = db.get_collection('sc_dataset')
-    contents = collec.find().sort({"date":1}).limit(100)
+    contents = collec.find().sort([("date",-1)]).limit(100)
     result = '''<link rel="stylesheet" type="text/css" href="static/style.css">'''
     result += "<table class='responstable'><tr><th >time</th> <th  >firstname</th><th  >lastname</th><th  >username</th><th  >command</th><th  >chat_id</th><th  >chat type</th></tr>"
-
+    client.close()
     for item in contents:
         result += "<tr><td  >" + str(item['date'])
         result += "</td><td  >{0} </td> <td  >{1}</td>  <td  >{2}</td>  <td  >{3}</td>  <td  >{4}</td>  <td  >{5}</td> </tr> ".format(
@@ -21,6 +21,6 @@ def hello_world():
 
     return result + "</table>"
 
-
+    
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
