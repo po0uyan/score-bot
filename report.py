@@ -14,7 +14,7 @@ def hello_world():
     result += "<table class='responstable'><tr><th >time</th> <th  >firstname</th><th  >lastname</th><th  >username</th><th  >command</th><th  >chat_id</th><th  >chat type</th></tr>"
 
     for item in contents:
-        result += "<tr><td  >" + item['date']
+        result += "<tr><td  >" + str(item['date'])
         result += "</td><td  >{0} </td> <td  >{1}</td>  <td  >{2}</td>  <td  >{3}</td>  <td  >{4}</td>  <td  >{5}</td> </tr> ".format(
             item['from']['first_name'], item['from']['last_name'], item['from']['username'], item['text'],
             item['chat']['id'], item['chat']['type'])
