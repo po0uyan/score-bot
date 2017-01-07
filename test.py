@@ -20,52 +20,52 @@ collec=db.get_collection('sc_dataset')
 
 def start(bot, update):
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
-    info_logger.info(update.message)
+    collec.insert_one(ast.literal_eval(str(update.message)))
 
 
 def echo(bot, update,user_data):
     if update.message.text== 'جداول رده بندی' :
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'rade bandi'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text=='آخرین خبر های ورزشی':
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'news'))
-   
+        collec.insert_one(ast.literal_eval(str(update.message)))
+
     elif update.message.text== 'نتایج زنده' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(),reply_markup=start_markup)
-        
-        info_logger.info(str(update.message).replace(update.message.text ,'live score'))
+
+        collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text == 'دریافت آخرین خلاصه بازی ها':
         user_data['videos'] = get_video()
         video_markup=get_video_keyboard(user_data['videos'])
         update.message.reply_text('لطفا بازی مورد نظر را انتخاب نمایید:\n .', reply_markup=video_markup)
-        info_logger.info(str(update.message).replace(update.message.text, 'summary'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text== 'بازگشت' :
         bot.sendMessage(reply_markup=start_markup,chat_id=update.message.chat_id,text="لطفا یکی از گزینه های مورد نظر را انتخاب نمایید")
     elif update.message.text== 'لیگ آلمان' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'bundesliga'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text== 'لیگ برترایران' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'iran leage'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text== 'لیگ اسپانیا' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'laliga'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text== 'لیگ فرانسه' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'france_leage'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text == 'لیگ جزیره' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(update.messag.replace(update.message.text,'premier leage'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text== 'سری آ' :
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_chart.get_chart(update.message.text),reply_markup=getrow_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'itly'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text=='روزنامه':
         bot.sendMessage(chat_id=update.message.chat_id,text="لطفا روزنامه مورد نظر را انتخاب نمایید.",reply_markup=getmag_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'magazine'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
 
 
     elif update.message.text=='خبر ورزشی':
@@ -92,16 +92,16 @@ def echo(bot, update,user_data):
 
     elif update.message.text == 'امتیاز بده 😁':
         bot.sendMessage(chat_id=update.message.chat_id, text="اگه پسند کردین بهم امتیاز بدین لطفا 👇🏻   ☺️ ",reply_markup=rate_inline_keyboard_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'rate'))
+        collec.insert_one(ast.literal_eval(str(update.message)))
     elif update.message.text == 'ارتباط با ادمین':
         bot.sendMessage(chat_id=update.message.chat_id, text="روی دکمه زیر کلیک کنید",reply_markup=admin_inline_keyboard_markup)
-        info_logger.info(str(update.message).replace(update.message.text,'admin contact'))
-    collec.insert_one(ast.literal_eval(str(update.message)))
+        collec.insert_one(ast.literal_eval(str(update.message)))
+
 
 def chart(bot, update):
     try:
         bot.sendMessage(chat_id=update.message.chat_id, text=get_chart.get_chart(update.message.text) , reply_markup=getrow_markup)
-        info_logger.info(update.message)
+        collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
 
@@ -109,7 +109,7 @@ def chart(bot, update):
 def news(bot, update):
     try:
         bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
-        info_logger.info(update.message)
+        collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
 
@@ -123,7 +123,7 @@ def button(bot, update,user_data):
 def score(bot, update):
     try:
         bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_score(),reply_markup=start_markup)
-        info_logger.info(update.message)
+        collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
 
@@ -131,7 +131,7 @@ def score(bot, update):
 def rate(bot, update):
     try:
         bot.sendMessage(chat_id=update.message.chat_id, text="اگه پسند کردین بهم امتیاز بدین لطفا 👇🏻   ☺️ ",reply_markup=rate_inline_keyboard_markup)
-        info_logger.info(update.message)
+        collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
 
