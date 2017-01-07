@@ -1,4 +1,5 @@
 from telegram import ParseMode
+import ast
 import logging
 from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup, \
     get_video_keyboard
@@ -12,6 +13,10 @@ from varzesh3_scrapp import get_score , get_video
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR,filename='log/error.log')
 from get_video_from_page import get_url
+from pymongo import MongoClient
+client=MongoClient()
+db=client.get_database('score_bot')
+collec=db.get_collection('sc_dataset')
 
 def start(bot, update):
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
@@ -91,6 +96,7 @@ def echo(bot, update,user_data):
     elif update.message.text == 'ارتباط با ادمین':
         bot.sendMessage(chat_id=update.message.chat_id, text="روی دکمه زیر کلیک کنید",reply_markup=admin_inline_keyboard_markup)
         info_logger.info(str(update.message).replace(update.message.text,'admin contact'))
+    collec.insert_one(ast.literal_eval(str(update.message)))
 
 def chart(bot, update):
     try:
