@@ -1,14 +1,15 @@
 from telegram import ParseMode
 import ast
-import logging
+import logging , os
 from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup, \
-    get_video_keyboard
+    get_video_keyboard , get_score_keyboard
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters , CallbackQueryHandler
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
-import get_chart ,get_news,get_score
+import get_chart ,get_news
 from magdictionary import mags
 import jdatetime
+import requests
 from varzesh3_scrapp import get_score , get_video
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR,filename='log/error.log')
@@ -18,9 +19,20 @@ client=MongoClient()
 db=client.get_database('score_bot')
 collec=db.get_collection('sc_dataset')
 
+
 def start(bot, update):
     update.message.reply_text("سلام من اسکور بات هستم؛ اگه حال نداری هر دقیقه سایتای سنگین و پر از تبلیغ ورزشیو چک کنی در خدمتم\n .",reply_markup=start_markup)
     collec.insert_one(ast.literal_eval(str(update.message)))
+
+
+def get_photo(name,url):
+    paper="{0}{1}.jpg".format(name,str(get_valid_date()))
+    if os.path.isfile(paper):
+        return paper
+
+    with open(paper, mode='wb') as e:
+        e.write(requests.get(url).content)
+        return paper
 
 
 def echo(bot, update,user_data):
@@ -33,8 +45,10 @@ def echo(bot, update,user_data):
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text== 'نتایج زنده' :
-        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(),reply_markup=start_markup)
-
+        user_data['lives'],user_data['scores'] = get_score()
+        user_data['islive']=True
+        score_markup=get_score_keyboard(user_data['lives'])
+        update.message.reply_text('لطفا دسته مورد نظر را انتخاب نمایید:\n .', reply_markup=score_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text == 'دریافت آخرین خلاصه بازی ها':
@@ -69,26 +83,26 @@ def echo(bot, update,user_data):
 
 
     elif update.message.text=='خبر ورزشی':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['خبر ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('khabar',mags['خبر ورزشی'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text=='ایران ورزشی':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ایران ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('iran',mags['ایران ورزشی'].format(get_valid_date())),reply_markup=getmag_markup)
 
     elif update.message.text=='گل':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['گل'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('gol',mags['گل'].format(get_valid_date())),reply_markup=getmag_markup)
 
 
     elif update.message.text == 'نود':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['نود'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('navad',mags['نود'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text == 'ابرار ورزشی':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['ابرار ورزشی'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('abrar',mags['ابرار ورزشی'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text == 'استقلال':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['استقلال'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('estegh',mags['استقلال'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text == 'شوت':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['شوت'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('shoot',mags['شوت'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text == 'هدف':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['هدف'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('hadaf',mags['هدف'].format(get_valid_date())),reply_markup=getmag_markup)
     elif update.message.text == 'پیروزی':
-        bot.sendPhoto(chat_id=update.message.chat_id,photo=mags['پیروزی'].format(get_valid_date()),reply_markup=getmag_markup)
+        bot.sendPhoto(chat_id=update.message.chat_id,photo=get_photo('piroozi',mags['پیروزی'].format(get_valid_date())),reply_markup=getmag_markup)
 
     elif update.message.text == 'امتیاز بده 😁':
         bot.sendMessage(chat_id=update.message.chat_id, text="اگه پسند کردین بهم امتیاز بدین لطفا 👇🏻   ☺️ ",reply_markup=rate_inline_keyboard_markup)
@@ -115,9 +129,16 @@ def news(bot, update):
 
 
 def button(bot, update,user_data):
-    query = update.callback_query
-    response=get_url(user_data['videos'][int(query.data)]['href'])
-    bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'> {1} </a>".format(response,user_data['videos'][int(query.data)]['title']))
+    if user_data['islive']:
+        user_data['islive']=False
+        query = update.callback_query
+        bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text=user_data['scores'][int(query.data)])
+
+
+    else:
+        query = update.callback_query
+        response=get_url(user_data['videos'][int(query.data)]['href'])
+        bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'> {1} </a>".format(response,user_data['videos'][int(query.data)]['title']))
 
 
 def score(bot, update):

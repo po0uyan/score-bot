@@ -31,3 +31,13 @@ def get_video_keyboard(data):
 
     reply_markup = InlineKeyboardMarkup(keyboard)
     return  reply_markup
+
+
+def get_score_keyboard(data):
+    keyboard=[]
+    for i, item in enumerate(data):
+        keyboard.append([InlineKeyboardButton(item, callback_data=str(i))])
+
+    reply_markup = InlineKeyboardMarkup(keyboard)
+
+    return reply_markup

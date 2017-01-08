@@ -22,12 +22,15 @@ def get_varzesh3_chart(postfix):
 
 def get_score():
     result=""
+    fresult=[]
+    hresult = []
     score = str(requests.get('http://www.varzesh3.com/livescore', headers=hdr).content, 'utf-8')
 
     b = BeautifulSoup(score, 'html.parser')
 
     for link in b.findAll('div', {'class': 'stage-wrapper sport0'}):
         result+="<b>✅✅{0}✅✅</b>\n\n".format(link.find('div', {'class': 'stage-name'}).text)
+        hresult.append(link.find('div', {'class': 'stage-name'}).text)
         score=(link.findAll('div', {'class': 'scores-container'}))
         rname=(link.findAll('div', {'class': 'teamname right'}))
         lname=(link.findAll('div', {'class': 'teamname left'}))
@@ -40,8 +43,9 @@ def get_score():
             else:
                 stat=stat.text
             result += "{0} {1} ⚽️ {2} {3} \n{4} \nزمان برگزاری: {5}\n\n".format(r.text.strip(), sc.text.split()[0], sc.text.split()[2], l.text,stat.strip(), st.text.strip(),date.text)
-        result+="\n"
-    return result+".".replace("?","❔")
+        fresult.append(result)
+        result=""
+    return hresult,fresult
 
 
 def get_video():
