@@ -2,7 +2,7 @@ from telegram import ParseMode
 import ast
 import logging , os
 from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup, \
-    get_video_keyboard , get_score_keyboard
+    get_video_keyboard , get_score_keyboard ,back_to_list_markup
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters , CallbackQueryHandler
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
@@ -10,7 +10,7 @@ import get_chart ,get_news
 from magdictionary import mags
 import jdatetime
 import requests
-from varzesh3_scrapp import get_score , get_video
+from varzesh3_scrapp import get_stage_name, get_score , get_video
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR,filename='log/error.log')
 from get_video_from_page import get_url
@@ -45,13 +45,15 @@ def echo(bot, update,user_data):
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text== 'نتایج زنده' :
-        user_data['lives'],user_data['scores'] = get_score()
+        user_data['lives'] = get_stage_name()
         user_data['islive']=True
         score_markup=get_score_keyboard(user_data['lives'])
         update.message.reply_text('لطفا دسته مورد نظر را انتخاب نمایید:\n .', reply_markup=score_markup)
+        user_data['score_markup']=score_markup
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text == 'دریافت آخرین خلاصه بازی ها':
+        user_data['islive']=False
         user_data['videos'] = get_video()
         video_markup=get_video_keyboard(user_data['videos'])
         update.message.reply_text('لطفا بازی مورد نظر را انتخاب نمایید:\n .', reply_markup=video_markup)
@@ -130,9 +132,11 @@ def news(bot, update):
 
 def button(bot, update,user_data):
     if user_data['islive']:
-        user_data['islive']=False
         query = update.callback_query
-        bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text=user_data['scores'][int(query.data)])
+        if query.data=="back":
+            bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,text='لطفا دسته مورد نظر را انتخاب نمایید:\n .', reply_markup=user_data['score_markup'])
+        else:
+            bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(user_data['lives'][int(query.data)]),reply_markup=back_to_list_markup)
 
 
     else:

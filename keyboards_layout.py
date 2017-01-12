@@ -22,6 +22,7 @@ rate_keyboard=[[InlineKeyboardButton(text="برای امتیاز دهی اینج
 rate_inline_keyboard_markup=InlineKeyboardMarkup(rate_keyboard)
 admin_contact_keyboard=[[InlineKeyboardButton(text="برای ارتباط با ادمین اینجا کلیک کنید️",url='https://telegram.me/scorebotA')]]
 admin_inline_keyboard_markup=InlineKeyboardMarkup(admin_contact_keyboard)
+back_to_list_markup=InlineKeyboardMarkup([[InlineKeyboardButton('بازگشت به دسته ها 🔙',callback_data="back")]])
 
 
 def get_video_keyboard(data):

@@ -20,41 +20,46 @@ def get_varzesh3_chart(postfix):
     return result +'\n.'
 
 
-def get_score():
-    result=""
-    fresult=[]
+def get_stage_name():
     hresult = []
-    day=""
+    day = ""
     score = str(requests.get('http://www.varzesh3.com/livescore', headers=hdr).content, 'utf-8')
 
     b = BeautifulSoup(score, 'html.parser')
 
     for link in b.findAll('div', {'class': 'stage-wrapper sport0'}):
-        match=link.find('div', {'class': 'stage-name'}).text.strip()
+        match = link.find('div', {'class': 'stage-name'}).text.strip()
+        if match not in hresult:
+            hresult.append(match)
+
+    return hresult
+
+
+def get_score(stage_name):
+    result=""
+    score = str(requests.get('http://www.varzesh3.com/livescore', headers=hdr).content, 'utf-8')
+
+    b = BeautifulSoup(score, 'html.parser')
+    for link in b.findAll('div', {'class': 'stage-wrapper sport0'}):
+        match = link.find('div', {'class': 'stage-name'}).text.strip()
         sdate = (link.find('div', {'class': 'start-date'}))
-        if day == "" or day==sdate.text:
-            day = sdate.text
-            hresult.append(match + "  امروز  ")
+        if match in stage_name:
+            result+="<b>✅✅{0}✅✅ </b> \nتاریخ: {1}\n\n".format(match,sdate.text.strip())
+            score=(link.findAll('div', {'class': 'scores-container'}))
+            rname=(link.findAll('div', {'class': 'teamname right'}))
+            lname=(link.findAll('div', {'class': 'teamname left'}))
+            stime=(link.findAll('div', {'class': 'start-time'}))
 
-        else:
-            hresult.append(match + "  دیروز  ")
+            status=(link.findAll('div', {'class': 'match-status'}))
+            for sc, r, l, st, stat in zip(score, rname, lname, stime, status):
+                if stat.text.strip() not in ['پایان نیمه اول' , 'نتیجه نهایی']:
+                    stat="دقیقه: "+stat.text.strip()
+                else:
+                    stat=stat.text
+                result += "{0} {1} ⚽️ {2} {3} \n{4} \nزمان برگزاری: {5}\n\n".format(r.text.strip(), sc.text.split()[0], sc.text.split()[2], l.text,stat.strip(), st.text.strip())
+            result += "\n."
 
-        result+="<b>✅✅{0}✅✅</b>\n\n".format(match)
-        score=(link.findAll('div', {'class': 'scores-container'}))
-        rname=(link.findAll('div', {'class': 'teamname right'}))
-        lname=(link.findAll('div', {'class': 'teamname left'}))
-        stime=(link.findAll('div', {'class': 'start-time'}))
-
-        status=(link.findAll('div', {'class': 'match-status'}))
-        for sc, r, l, st, stat in zip(score, rname, lname, stime, status):
-            if stat.text.strip() not in ['پایان نیمه اول' , 'نتیجه نهایی']:
-                stat="دقیقه: "+stat.text.strip()
-            else:
-                stat=stat.text
-            result += "{0} {1} ⚽️ {2} {3} \n{4} \nزمان برگزاری: {5}\n\n".format(r.text.strip(), sc.text.split()[0], sc.text.split()[2], l.text,stat.strip(), st.text.strip())
-        fresult.append(result+"\n.")
-        result=""
-    return hresult,fresult
+    return result
 
 
 def get_video():
