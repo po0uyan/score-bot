@@ -1,6 +1,6 @@
 from telegram import ReplyKeyboardMarkup,InlineKeyboardMarkup,InlineKeyboardButton
 start_reply_keyboard = [['دریافت آخرین خلاصه بازی ها'],
-                        ["آخرین خبر های ورزشی"],
+                        ["آخرین خبر ها" , "جدول پخش tv"],
                         ["نتایج زنده", "جداول رده بندی "],
                         ["امتیاز بده 😁 ","ارتباط با ادمین"]]
 getrow_reply_keyboard = [ ["بازگشت"],
@@ -13,8 +13,12 @@ getmag_reply_keyboard = [["بازگشت"],
                          [ "گل" , "نود"],
                         ["استقلال","پیروزی"],
                         ["شوت","هدف"],
-                        ["ابرار ورزشی"],
+                        ["ابرار ورزشی"]
                          ]
+getnews_reply_keyboard=[["داخلی","خارجی"],
+                        ["بازگشت"]
+                        ]
+getnews_markup=ReplyKeyboardMarkup(getnews_reply_keyboard, resize_keyboard=True,one_time_keyboard=True)
 getmag_markup = ReplyKeyboardMarkup(getmag_reply_keyboard, resize_keyboard=True)
 start_markup = ReplyKeyboardMarkup(start_reply_keyboard, resize_keyboard=True)
 getrow_markup = ReplyKeyboardMarkup(getrow_reply_keyboard, resize_keyboard=True)
@@ -42,3 +46,19 @@ def get_score_keyboard(data):
     reply_markup = InlineKeyboardMarkup(keyboard)
 
     return reply_markup
+
+
+def get_news_keyboard(data):
+    index=int(data[1])
+
+    if index < 4:
+
+        index += 1
+    else:
+        return InlineKeyboardMarkup(
+            [[InlineKeyboardButton("پایان🚩", callback_data="end")]])
+
+    key = InlineKeyboardMarkup(
+        [[InlineKeyboardButton("صفحه {0} از {1} 📰".format(index,5), callback_data="{0}{1}".format(data[0],index))]])
+
+    return key

@@ -2,11 +2,12 @@ from telegram import ParseMode
 import ast
 import logging , os
 from keyboards_layout import getrow_markup,getmag_markup,start_markup,rate_inline_keyboard_markup,admin_inline_keyboard_markup, \
-    get_video_keyboard , get_score_keyboard ,back_to_list_markup
+    get_video_keyboard , get_score_keyboard ,back_to_list_markup,getnews_markup,\
+    get_news_keyboard
 from telegram.ext import Updater,CommandHandler , MessageHandler, Filters , CallbackQueryHandler
 from telegram.error import (TelegramError, Unauthorized, BadRequest,TimedOut, ChatMigrated, NetworkError)
 from bot_logger import error_logger , info_logger
-import get_chart ,get_news
+import get_chart ,tarafdari_scrapp
 from magdictionary import mags
 import jdatetime
 import requests
@@ -40,20 +41,35 @@ def echo(bot, update,user_data):
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
 
-    elif update.message.text=='آخرین خبر های ورزشی':
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
+    elif update.message.text=='آخرین خبر ها':
+        bot.sendMessage(chat_id=update.message.chat_id,text="لطفا از بین اخبار داخلی یا خارجی انتخاب نمایید",parse_mode=ParseMode.HTML,reply_markup=getnews_markup)
+        collec.insert_one(ast.literal_eval(str(update.message)))
+
+    elif update.message.text=='جدول پخش tv':
+        bot.sendMessage(chat_id=update.message.chat_id,text=tarafdari_scrapp.get_tv_chart(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
+        collec.insert_one(ast.literal_eval(str(update.message)))
+
+
+    elif update.message.text == 'داخلی':
+        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_inner_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("i0"))
+        user_data['intend'] = "inner"
+        collec.insert_one(ast.literal_eval(str(update.message)))
+
+    elif update.message.text == 'خارجی':
+        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_outer_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("o0"), hide_keyboard=True)
+        user_data['intend'] = "outer"
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text== 'نتایج زنده' :
         user_data['lives'] = get_stage_name()
-        user_data['islive']=True
+        user_data['intend']="live"
         score_markup=get_score_keyboard(user_data['lives'])
         update.message.reply_text('لطفا دسته مورد نظر را انتخاب نمایید:\n .', reply_markup=score_markup)
         user_data['score_markup']=score_markup
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text == 'دریافت آخرین خلاصه بازی ها':
-        user_data['islive']=False
+        user_data['intend']="summary"
         user_data['videos'] = get_video()
         video_markup=get_video_keyboard(user_data['videos'])
         update.message.reply_text('لطفا بازی مورد نظر را انتخاب نمایید:\n .', reply_markup=video_markup)
@@ -124,25 +140,51 @@ def chart(bot, update):
 
 def news(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id,text=get_news.get_news(),parse_mode=ParseMode.HTML,reply_markup=start_markup)
+        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_news(), parse_mode=ParseMode.HTML, reply_markup=start_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
 
 
 def button(bot, update,user_data):
-    if user_data['islive']:
+    if user_data['intend'] == "live":
         query = update.callback_query
         if query.data=="back":
             bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,text='لطفا دسته مورد نظر را انتخاب نمایید:\n .', reply_markup=user_data['score_markup'])
         else:
-            bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text=get_score(user_data['lives'][int(query.data)]),reply_markup=back_to_list_markup)
+            bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML,text=get_score(user_data['lives'][int(query.data)]),reply_markup=back_to_list_markup)
 
-
-    else:
+    elif user_data['intend'] == "summary":
         query = update.callback_query
         response=get_url(user_data['videos'][int(query.data)]['href'])
-        bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,parse_mode=ParseMode.HTML,text="<a href='{0}'> {1} </a>".format(response,user_data['videos'][int(query.data)]['title']))
+        bot.editMessageText(message_id=query.message.message_id,chat_id=query.message.chat_id,
+                            parse_mode=ParseMode.HTML,
+                            text="<a href='{0}'> {1} </a>".format(response,user_data['videos'][int(query.data)]['title']))
+
+    elif user_data['intend'] == "inner":
+        query = update.callback_query
+        if query.data == "end":
+            bot.editMessageText(message_id=query.message.message_id, chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML, text="😊")
+            bot.sendMessage(chat_id=query.message.chat_id,
+                            parse_mode=ParseMode.HTML, text="لطفا انتخاب نمایید  ", reply_markup=getnews_markup)
+        else:
+            bot.editMessageText(message_id=query.message.message_id, chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML, text=tarafdari_scrapp.get_inner_news(query.data[1]),
+                                reply_markup=get_news_keyboard(query.data))
+
+    elif user_data['intend'] == "outer":
+        query = update.callback_query
+        if query.data == "end":
+            bot.editMessageText(message_id=query.message.message_id, chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML, text="😊")
+            bot.sendMessage(chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML, text="لطفا انتخاب نمایید ",reply_markup=getnews_markup)
+        else:
+
+            bot.editMessageText(message_id=query.message.message_id, chat_id=query.message.chat_id,
+                                parse_mode=ParseMode.HTML, text=tarafdari_scrapp.get_outer_news(query.data[1]), reply_markup=get_news_keyboard(query.data))
 
 
 def score(bot, update):
