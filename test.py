@@ -41,7 +41,7 @@ def echo(bot, update,user_data):
         bot.sendMessage(chat_id=update.message.chat_id, text="لطفا لیگ مورد نظر را انتخاب کنید",reply_markup=getrow_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
 
-    elif update.message.text=='آخرین خبر ها':
+    elif 'آخرین خبر ها' in update.message.text :
         bot.sendMessage(chat_id=update.message.chat_id,text="لطفا از بین اخبار داخلی یا خارجی انتخاب نمایید",parse_mode=ParseMode.HTML,reply_markup=getnews_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
 
