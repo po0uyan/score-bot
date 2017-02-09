@@ -51,12 +51,12 @@ def echo(bot, update,user_data):
 
 
     elif update.message.text == 'داخلی':
-        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_inner_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("i0"))
+        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_inner_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("p0"))
         user_data['intend'] = "inner"
         collec.insert_one(ast.literal_eval(str(update.message)))
 
     elif update.message.text == 'خارجی':
-        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_outer_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("o0"), hide_keyboard=True)
+        bot.sendMessage(chat_id=update.message.chat_id, text=tarafdari_scrapp.get_outer_news("0"), parse_mode=ParseMode.HTML, reply_markup=get_news_keyboard("p0"), hide_keyboard=True)
         user_data['intend'] = "outer"
         collec.insert_one(ast.literal_eval(str(update.message)))
 

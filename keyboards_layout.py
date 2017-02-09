@@ -50,15 +50,21 @@ def get_score_keyboard(data):
 
 def get_news_keyboard(data):
     index=int(data[1])
-
-    if index < 4:
-
-        index += 1
+    if data[0]=='p':
+        if index > 0:
+            return InlineKeyboardMarkup(
+                [[InlineKeyboardButton("صفحه بعد ⬅️", callback_data="{0}{1}".format("n",index+1)),
+                  InlineKeyboardButton("➡ صفحه قبل", callback_data="{0}{1}".format("p",index-1))]])
+        else:
+            return InlineKeyboardMarkup(
+                [[InlineKeyboardButton("صفحه بعد ⬅️", callback_data="{0}{1}".format("n", index+1))]])
     else:
-        return InlineKeyboardMarkup(
-            [[InlineKeyboardButton("پایان🚩", callback_data="end")]])
+        if index < 4:
+            return InlineKeyboardMarkup(
+                [[InlineKeyboardButton("صفحه بعد ⬅️", callback_data="{0}{1}".format("n", index+1)),
+                  InlineKeyboardButton("➡ صفحه قبل", callback_data="{0}{1}".format("p", index-1))]])
 
-    key = InlineKeyboardMarkup(
-        [[InlineKeyboardButton("صفحه {0} از {1} 📰".format(index,5), callback_data="{0}{1}".format(data[0],index))]])
+        else:
 
-    return key
+            return InlineKeyboardMarkup(
+                [[InlineKeyboardButton("➡ صفحه قبل", callback_data="{0}{1}".format("p", index-1))]])
