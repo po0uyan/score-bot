@@ -67,4 +67,4 @@ def get_news_keyboard(data):
         else:
 
             return InlineKeyboardMarkup(
-                [[InlineKeyboardButton("➡ صفحه قبل", callback_data="{0}{1}".format("p", index-1))]])
+                [[InlineKeyboardButton("➡ صفحه قبل", callback_data="{0}{1}".format("p", index-1))],[InlineKeyboardButton("نمایش منو ⚽️", callback_data="end")]])
