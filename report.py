@@ -29,10 +29,6 @@ def registers():
     client = MongoClient()
     db = client.get_database('score_bot')
     collec = db.get_collection('sc_dataset')
-    with open('log/assets.log','r') as f :
-        a=f.readline()
-        b=a.split(',')
-        res=len(b)
     with open("log/assets.log","a") as f:
         with open("log/assets.log","r") as h:
             h=h.readline()
@@ -40,6 +36,10 @@ def registers():
             if str(item) not in h:
                 n+=1
                 f.write(str(item)+",")
+    with open('log/assets.log','r') as f :
+        a=f.readline()
+        b=a.split(',')
+        res=len(b)
     return "<h1>"+"{0} ids has been inserted".format(n)+"</br>this shit :"+str(len(collec.distinct("from.id")))+"</br>totall: "+str(res)+"</h1>"
 
 if __name__ == "__main__":
