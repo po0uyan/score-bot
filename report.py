@@ -25,25 +25,22 @@ def report():
 
 @app.route('/registers')
 def registers():
+    n=0
     client = MongoClient()
     db = client.get_database('score_bot')
     collec = db.get_collection('sc_dataset')
-    return "<h1>"+str(len(collec.distinct("from.id")))+"</h1>"
-
-@app.route('/backup')
-def backup():
-    g=0
-    client = MongoClient()
-    db = client.get_database('score_bot')
-    collec = db.get_collection('sc_dataset')
+    with open('log/assets.log','r') as f :
+        a=f.readline()
+        b=a.split(',')
+        res=len(b)
     with open("log/assets.log","a") as f:
         with open("log/assets.log","r") as h:
             h=h.readline()
         for item in collec.distinct("from.id"):
             if str(item) not in h:
-                g+=1
+                n+=1
                 f.write(str(item)+",")
-    return "<h1>"+"{0} ids has been inserted".format(g)+"</h1>"
+    return "<h1>"+"{0} ids has been inserted".format(n)+"</br>this shit :"+str(len(collec.distinct("from.id")))+"</br>totall: "+str(res)+"</h1>"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
