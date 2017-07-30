@@ -9,17 +9,17 @@ def get_chart(text):
     result = ""
 
     if any(word in text for word in laliga):
-        postfix = '183'
+        postfix = '347'
     elif any(word in text for word in premier_leageu):
-        postfix = '177'
+        postfix = '334'
     elif any(word in text for word in italy):
-        postfix = '188'
+        postfix = '351'
     elif any(word in text for word in bondeliga):
-        postfix = '178'
+        postfix = '335'
     elif any(word in text for word in iran):
-        postfix = '173'
+        postfix = '346'
     elif any(word in text for word in france):
-        postfix = '179'
+        postfix = '336'
     else:
         return "در این قسمت میتوانید از کیبورد استفاده کنید و لیگ مورد نظر را انتخاب نمایید و یا اینکه نام لیگ را به صورت زیر وارد نمایید نام لیگ هر شکلی نوشته شود اسکور بات منظور شما را می فهمد ، به عنوان مثال : \n\n /jadval انگلیس \n\n یا \n\n /jadval premier  \n\n  یا \n\n /jadval jazire  \n\n  و یا هر ترکیب دیگر از لیگ های دیگر \n ."
 
