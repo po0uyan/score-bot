@@ -132,7 +132,7 @@ def echo(bot, update,user_data):
 
 def chart(bot, update):
     try:
-        bot.sendMessage(chat_id=update.message.chat_id, text=get_chart.get_chart(update.message.text) , reply_markup=getrow_markup)
+        bot.sendMessage(chat_id=update.message.chat_id,parse_mode=ParseMode.HTML, text=get_chart.get_chart(update.message.text) , reply_markup=getrow_markup)
         collec.insert_one(ast.literal_eval(str(update.message)))
     except Exception as e :
         error_logger.error(e)
